@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="components">
-      <Carousel/>
+      <Headlines/>
       <HomeCategory/>
       <ProductSlider/>
       <Subscribe/>
@@ -27,6 +27,7 @@
 <script>
 import db from "./firebaseInit";
 import Carousel from "./CarouselContainer";
+import Headlines from "./Headlines";
 import HomeCategory from "./HomeCategory";
 import ProductSlider from "./ProductSlider";
 import PageFooter from "./PageFooter";
@@ -34,36 +35,43 @@ import Subscribe from "./SubscribeSignUp";
 
 export default {
   name: "home",
-  components: { Carousel, HomeCategory, PageFooter, ProductSlider, Subscribe },
+  components: {
+    Headlines,
+    Carousel,
+    HomeCategory,
+    PageFooter,
+    ProductSlider,
+    Subscribe
+  },
   data() {
     return {
+      articles: [],
       employees: [],
       loading: true
     };
   },
-  created() {
-    // db.collection('employees').orderBy('dept').get().then((querySnapshot) => {
-    //   this.loading = false
-    //   querySnapshot.forEach((doc) => {
-    //     const data = {
-    //       'id': doc.id,
-    //       'employee_id': doc.data().employee_id,
-    //       'name': doc.data().name,
-    //       'dept': doc.data().dept,
-    //       'position': doc.data().position
-    //     }
-    //     this.employees.push(data)
-    //   })
-    // })
+  created() {},
+  methods: {
+    fetchData() {
+      let apikey = "26cc3b2be92d47d2a974591e7a973790";
+      console.log("apikey", apikey);
+      let country = "us";
+      let category = "top-headlines";
+      let url = `https://newsapi.org/v2/${category}?country=${country}&apiKey=${apikey}`;
+      fetch(url)
+        .then(data => {
+          console.log(data, "fetch res");
+          return data.json();
+        })
+        .then(dat => {
+          console.log(dat, "dat");
+          this.articles = dat.articles;
+        });
+    }
   }
 };
 </script>
 <style scoped>
-.components {
-  display: grid;
-  grid-template-rows: auto auto auto auto auto;
-  width: 100vw;
-}
 section {
   margin-top: -66px;
 }

@@ -1,11 +1,13 @@
  <template>
   <section>
-    <nav>
-      <div class="nav-wrapper black">
-        <a href="#!" class="brand-logo">Logo</a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger">
-          <i class="material-icons">menu</i>
-        </a>
+    <nav class="black">
+      <div class="nav-wrapper">
+        <div>
+          <a href="#!" class="brand-logo">NEWS</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+            <i class="material-icons">menu</i>
+          </a>
+        </div>
         <ul class="right hide-on-med-and-down">
           <li v-for="(cat,index) in categories" :key="index">
             <a :href="cat">{{cat}}</a>
@@ -39,7 +41,6 @@ export default {
     }
   },
   mounted() {
-    this.changeNav();
     // EventBus.$on("addToCart", value => {
     //   this.addToCart(value);
     // });
@@ -47,96 +48,42 @@ export default {
     //   this.deleteItem(value);
     // });
   },
-  updated() {
-    this.changeNav();
-  },
+  updated() {},
   watch: {
     // call again the method if the route changes
-    $route: "changeNav"
+    $route: ""
   },
   methods: {
-    changeNav() {
-      console.log(this.$route, "route updated");
-      if (
-        this.$route.path.startsWith("/products") ||
-        this.$route.path.startsWith("/cart") ||
-        this.$route.path.startsWith("/all") ||
-        this.$route.path.startsWith("/mens") ||
-        this.$route.path.startsWith("/womens")
-      ) {
-        this.slate = true;
-      } else {
-        this.slate = false;
-      }
-    },
-    addToCart(itemToAdd) {
-      console.log(itemToAdd, "adding to cart");
-      let inBasket = false;
-      this.cartItems.forEach(item => {
-        if (item.id === itemToAdd.id) {
-          inBasket = true;
-          item.qty += itemToAdd.qty;
-        }
-      });
-
-      if (inBasket === false) {
-        this.cartItems.push(itemToAdd);
-      }
-      itemToAdd.qty = 1;
-    },
-    deleteItem(itemToDelete) {
-      function removeItem(val) {
-        return val.id !== itemToDelete.id;
-      }
-      console.log("cart", this.cart);
-      var removed = this.cartItems.filter(removeItem);
-      console.log(removed, "removed");
-      this.cartItems = removed;
-    }
+    // fetchData() {
+    //   let apikey = "26cc3b2be92d47d2a974591e7a973790";
+    //   console.log("apikey", apikey);
+    //   let country = "us";
+    //   let category = "top-headlines";
+    //   let url = `https://newsapi.org/v2/${category}?country=${country}&apiKey=${apikey}`;
+    //   fetch(url)
+    //     .then(data => {
+    //       console.log(data, "fetch res");
+    //       return data.json();
+    //     })
+    //     .then(dat => {
+    //       console.log(dat, "dat");
+    //     });
+    // }
   }
 };
 </script>
 
   <style scoped>
-div.nav-wrapper {
-  background-color: transparent;
-  z-index: 10;
+.nav-wrapper {
+  display: grid;
+  grid-template-columns: auto auto auto;
 }
-.slategray {
-  color: lightslategray !important;
+.brand-logo {
+  width: 15rem;
+  margin-left: 3rem;
 }
-.cart-preview {
-  position: absolute;
-  z-index: -1;
-  opacity: 0;
-  visibility: hidden;
-  transform: scale(0.5) translateY(-100px);
-  transition: 0.4s ease-in-out;
-  background-color: #15324e38;
-  background: linear-gradient(#000000c4, #15324e38);
-  color: white;
-  border-bottom-left-radius: 1rem;
-  border: 1px solid white;
-  border-bottom-right-radius: 1rem;
-  width: 12rem;
-  text-align: center;
-}
-.cart-preview p {
-  padding: 0rem 1rem;
-  margin: 0px;
-}
-.cart-preview button {
-  position: relative;
-  font-size: 0.9rem;
-  width: 100%;
-  margin-bottom: 0px;
-  vertical-align: middle;
-}
-
-.cart-btn:hover .cart-preview {
-  z-index: -1;
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1) translateY(0px) translateX(-14px);
+.hide-on-med-and-down {
+  display: inline-flex;
+  justify-content: space-evenly;
 }
 </style>
