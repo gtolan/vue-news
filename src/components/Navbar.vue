@@ -15,12 +15,19 @@
         </ul>
       </div>
     </nav>
+    <div class="row">
+      <div class="input-field col s6">
+        <i class="material-icons prefix">search</i>
+        <input type="search" id="querySearch">
+        <label for="querySearch">Search news articles</label>
+      </div>
+    </div>
 
-    <ul class="sidenav" id="mobile-demo">
+    <!-- <ul class="sidenav" id="mobile-demo">
       <li v-for="(cat,index) in categories" :key="index">
         <a :href="cat">{{cat}}</a>
       </li>
-    </ul>
+    </ul>-->
   </section>
 </template>
   <script>
@@ -85,5 +92,9 @@ export default {
 .hide-on-med-and-down {
   display: inline-flex;
   justify-content: space-evenly;
+}
+#querySearch {
+  width: 90vw;
+  margin-left: 5vw;
 }
 </style>

@@ -3,6 +3,5 @@ const merge = require("webpack-merge");
 const prodEnv = require("./prod.env");
 
 module.exports = merge(prodEnv, {
-  NODE_ENV: '"development"',
-  NEWSAPI: "26cc3b2be92d47d2a974591e7a973790"
+  NODE_ENV: '"development"'
 });

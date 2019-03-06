@@ -2,20 +2,13 @@
   <section>
     <div class="components">
       <Headlines/>
-      <HomeCategory/>
+      <Business/>
+      <Technology/>
+      <!-- <HomeCategory/>
       <ProductSlider/>
-      <Subscribe/>
-      <PageFooter/>
+      <Subscribe/>-->
     </div>
 
-    <!-- <ul class="collection with-header">
-      <li class="collection-header"><h4>Employees</h4></li>
-      <li v-for="employee in employees" v-bind:key="employee.id" class="collection-item">
-        <div class="chip">{{employee.dept}}</div>
-        {{employee.employee_id}}: {{employee.name}} 
-         <router-link class="secondary-content" v-bind:to="{ name: 'view-employee', params: { employee_id: employee.employee_id }}"><i class="fa fa-eye"></i></router-link>
-      </li>
-    </ul>-->
     <div class="fixed-action-btn">
       <router-link to="/products" class="btn-floating btn-large red">
         <i class="fa fa-plus"></i>
@@ -26,22 +19,16 @@
 
 <script>
 import db from "./firebaseInit";
-import Carousel from "./CarouselContainer";
 import Headlines from "./Headlines";
-import HomeCategory from "./HomeCategory";
-import ProductSlider from "./ProductSlider";
-import PageFooter from "./PageFooter";
-import Subscribe from "./SubscribeSignUp";
+import Business from "./BusinessSection";
+import Technology from "./TechnologySection";
 
 export default {
   name: "home",
   components: {
     Headlines,
-    Carousel,
-    HomeCategory,
-    PageFooter,
-    ProductSlider,
-    Subscribe
+    Business,
+    Technology
   },
   data() {
     return {
@@ -73,6 +60,10 @@ export default {
 </script>
 <style scoped>
 section {
-  margin-top: -66px;
+  margin-top: -10px;
+}
+div.components {
+  width: 100vw;
+  overflow-x: hidden;
 }
 </style>

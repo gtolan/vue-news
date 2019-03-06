@@ -4,17 +4,19 @@
     <transition name="slide">
       <router-view :cart="cartItems"/>
     </transition>
+    <PageFooter/>
   </div>
 </template>
 
 <script>
 import EventBus from "./eventBus";
 import Navbar from "./components/Navbar";
-// import PageFooter from './components/PageFooter';
+import PageFooter from "./components/PageFooter";
 export default {
   name: "app",
   components: {
-    Navbar
+    Navbar,
+    PageFooter
   },
   data() {
     return {
