@@ -20,10 +20,10 @@
       </div>
     </nav>
     <div class="row">
-      <div class="input-field col s6">
+      <div class="input-field col s12">
         <i class="material-icons prefix">search</i>
-        <input type="search" id="querySearch">
-        <label for="querySearch">Search news articles</label>
+        <input type="search" id="querySearch" class="col s8 l9" placeholder="search articles">
+        <button @click.prevent="searchQuery" class="btn btn-small search col s3 l2">Search</button>
       </div>
     </div>
 
@@ -86,6 +86,11 @@ export default {
     $route: ""
   },
   methods: {
+    searchQuery() {
+      let q = document.getElementById("querySearch");
+      let val = q.value;
+      EventBus.$emit("searchQuery", val);
+    },
     changeLargeCards(index) {
       console.log(index, "I");
       let query = this.categoryApiQuery[index];
@@ -135,8 +140,22 @@ export default {
   outline: 1px solid red;
   outline-offset: -4px;
 }
+button.btn-small.search {
+  background-color: red;
+  height: 45px;
+}
 #querySearch {
-  width: 90vw;
+  /* width: 90vw; */
   margin-left: 5vw;
+}
+.material-icons.prefix {
+  font-size: 3rem;
+  margin-top: 6px;
+  height: 60px;
+}
+@media only screen and (max-width: 500px) {
+  .material-icons.prefix[data-v-41458b80] {
+    margin-left: -11px;
+  }
 }
 </style>

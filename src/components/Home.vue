@@ -5,12 +5,6 @@
       <MediumCards :articles="mediumArticles" :title="mediumTitle"/>
       <SmallCards :articles="smallArticles" :title="smallTitle"/>
     </main>
-
-    <div class="fixed-action-btn">
-      <router-link to="/products" class="btn-floating btn-large red">
-        <i class="fa fa-plus"></i>
-      </router-link>
-    </div>
   </section>
 </template>
 
@@ -58,6 +52,9 @@ export default {
     EventBus.$on("updateLargeCards", value => {
       this.updateLargeCards(value);
     });
+    EventBus.$on("searchQuery", value => {
+      this.searchQuery(value);
+    });
     EventBus.$on("updateMediumCards", value => {
       console.log("update med cards ON Home ev");
       this.updateMediumCards(value);
@@ -85,8 +82,9 @@ export default {
       let dest = "medium";
       this.mediumTitle = query;
       let country = "us";
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
-      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${
+        process.env.VUE_APP_NEWS_API
+      }`;
       this.fetchCategory(query, url, country, dest);
     },
     updateSmallCards(query) {
@@ -94,34 +92,43 @@ export default {
       let dest = "small";
       this.smallTitle = query;
       let country = "us";
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
-      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${
+        process.env.VUE_APP_NEWS_API
+      }`;
       this.fetchCategory(query, url, country, dest);
     },
     initLargeCards() {
       let url =
         "https://newsapi.org/v2/top-headlines?" +
         "country=us&" +
-        "apiKey=26cc3b2be92d47d2a974591e7a973790";
+        `apiKey=${process.env.VUE_APP_NEWS_API}`;
       this.fetchHeadlines(url);
     },
     initMediumCards() {
       let query = "business";
       this.mediumTitle = "business";
       let country = "us";
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
       let dest = "medium";
-      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${
+        process.env.VUE_APP_NEWS_API
+      }`;
       this.fetchCategory(query, url, country, dest);
     },
     initSmallCards() {
       let query = "technology";
       this.smallTitle = "technology";
       let country = "us";
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
       let dest = "small";
-      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
+      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${
+        process.env.VUE_APP_NEWS_API
+      }`;
       this.fetchCategory(query, url, country, dest);
+    },
+    searchQuery(query) {
+      let url = `https://newsapi.org/v2/everything?q=${query}&from=2019-02-07&sortBy=publishedAt&apiKey=${
+        process.env.VUE_APP_NEWS_API
+      }`;
+      this.fetchHeadlines(url);
     },
     fetchHeadlines(url) {
       fetch(url)
@@ -133,7 +140,6 @@ export default {
         });
     },
     fetchCategory(cat, url, country, dest) {
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
       console.log("apikey", apikey, cat, url, country, dest);
       if (!country) {
         const country = "us";
@@ -142,7 +148,9 @@ export default {
         const category = cat;
       }
       if (!url) {
-        const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&country=${country}&apiKey=${apikey}`;
+        const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&country=${country}&apiKey=${
+          process.env.VUE_APP_NEWS_API
+        }`;
       }
 
       fetch(url)
