@@ -1,6 +1,6 @@
 <template>
-  <div class="medium-cards">
-    <h4 class="section-title">Business</h4>
+  <div class="small-cards">
+    <h4 class="section-title">Technology</h4>
     <section id="bottom">
       <article
         v-for="(article,index) in articles"
@@ -14,33 +14,33 @@
 </template>
 
 <script>
+import EventBus from "../eventBus";
 export default {
-  name: "BusinessSection",
+  name: "TechnologySection",
   data() {
-    return {
-      articles: []
-    };
+    return {};
   },
+  props: ["articles"],
   methods: {
-    fetchData() {
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
-      console.log("apikey", apikey);
-      let country = "us";
-      let category = "business";
-      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&country=${country}&apiKey=${apikey}`;
-      fetch(url)
-        .then(data => {
-          console.log(data, "fetch res");
-          return data.json();
-        })
-        .then(dat => {
-          console.log(dat, "dat");
-          this.articles = dat.articles;
-        });
-    }
+    // fetchData() {
+    //   let apikey = "26cc3b2be92d47d2a974591e7a973790";
+    //   console.log("apikey", apikey);
+    //   let country = "us";
+    //   let category = "technology";
+    //   let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&country=${country}&apiKey=${apikey}`;
+    //   fetch(url)
+    //     .then(data => {
+    //       console.log(data, "fetch res");
+    //       return data.json();
+    //     })
+    //     .then(dat => {
+    //       console.log(dat, "dat");
+    //       this.articles = dat.articles;
+    //     });
+    // }
   },
   mounted() {
-    this.fetchData();
+    // this.fetchData();
   }
 };
 </script>
@@ -48,7 +48,7 @@ export default {
 <style scoped>
 section#bottom {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   background-color: black;
 }
 section article {

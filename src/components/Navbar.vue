@@ -10,7 +10,9 @@
         </div>
         <ul class="right hide-on-med-and-down">
           <li v-for="(cat,index) in categories" :key="index">
-            <a :href="cat">{{cat}}</a>
+            <button
+              @click="changeLargeCards(categoryApiQuery[index])"
+            >{{cat | captilizeFirstLetter}}</button>
           </li>
         </ul>
       </div>
@@ -38,15 +40,33 @@ export default {
     return {
       slate: false,
       cartItems: [],
-      categories: ["Headlines", "Politics", "Technology", "Sports", "Health"]
+      categories: [
+        "technology",
+        "sport",
+        "entertainment",
+        "music",
+        "science",
+        "business",
+        "gaming"
+      ],
+      categoryApiQuery: [
+        "tecnology",
+        "sport",
+        "entertainment",
+        "music",
+        "science-and-nature",
+        "business",
+        "gaming"
+      ]
     };
   },
-  props: ["cart", "totalQty"],
   filters: {
-    itemAmount: val => {
-      return val == 1 ? val + " Item" : val + " Items";
+    captilizeFirstLetter: val => {
+      let str = val[0].toUpperCase() + val.substring(1);
+      return str;
     }
   },
+  props: ["cart", "totalQty"],
   mounted() {
     // EventBus.$on("addToCart", value => {
     //   this.addToCart(value);
@@ -61,6 +81,10 @@ export default {
     $route: ""
   },
   methods: {
+    changeLargeCards(query) {
+      console.log("emit update large card", query);
+      EventBus.$emit("updateLargeCards", query);
+    }
     // fetchData() {
     //   let apikey = "26cc3b2be92d47d2a974591e7a973790";
     //   console.log("apikey", apikey);

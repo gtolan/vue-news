@@ -12,33 +12,33 @@
 </template>
 
 <script>
+import EventBus from "../eventBus";
 export default {
-  name: "Headlines",
+  name: "LargeCards",
   data() {
-    return {
-      articles: []
-    };
+    return {};
   },
+  props: ["articles"],
   methods: {
-    fetchData() {
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
-      console.log("apikey", apikey);
-      let country = "us";
-      let category = "top-headlines";
-      let url = `https://newsapi.org/v2/${category}?country=${country}&apiKey=${apikey}`;
-      fetch(url)
-        .then(data => {
-          console.log(data, "fetch res");
-          return data.json();
-        })
-        .then(dat => {
-          console.log(dat, "dat");
-          this.articles = dat.articles;
-        });
-    }
+    // fetchData() {
+    //   let apikey = "26cc3b2be92d47d2a974591e7a973790";
+    //   console.log("apikey", apikey);
+    //   let country = "us";
+    //   let category = "top-headlines";
+    //   let url = `https://newsapi.org/v2/${category}?country=${country}&apiKey=${apikey}`;
+    //   fetch(url)
+    //     .then(data => {
+    //       console.log(data, "fetch res");
+    //       return data.json();
+    //     })
+    //     .then(dat => {
+    //       console.log(dat, "dat");
+    //       this.articles = dat.articles;
+    //     });
+    // }
   },
   mounted() {
-    this.fetchData();
+    // this.fetchData();
   }
 };
 </script>
