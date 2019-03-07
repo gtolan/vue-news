@@ -89,6 +89,7 @@ article h1 {
   transition: 0.4s ease-in-out;
   font-size: 3rem;
   line-height: 3.6rem;
+  height: 19rem;
 }
 article p {
   display: -webkit-box;
