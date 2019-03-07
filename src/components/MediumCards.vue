@@ -1,7 +1,12 @@
 <template>
   <div class="medium-cards">
-    <h4 class="section-title">Business</h4>
-    <section id="bottom">
+    <div class="section-controls">
+      <h4 class="section-title">{{title | captilizeFirstLetter}}</h4>
+      <select value="title | captilizeFirstLetter" @change="handleUpdateMediumCard($event)">
+        <option v-for="(cat, index) in categories" :key="index">{{cat | captilizeFirstLetter}}</option>
+      </select>
+    </div>
+    <section id="medium">
       <article
         v-for="(article,index) in articles"
         :key="index"
@@ -18,35 +23,47 @@ import EventBus from "../eventBus";
 export default {
   name: "MediumCards",
   data() {
-    return {};
+    return {
+      categories: [
+        "headlines",
+        "technology",
+        "sport",
+        "entertainment",
+        "music",
+        "business",
+        "gaming"
+      ],
+      categoryApiQuery: [
+        "headlines",
+        "technology",
+        "sport",
+        "entertainment",
+        "music",
+        "business",
+        "gaming"
+      ]
+    };
   },
-  props: ["articles"],
+  props: ["articles", "title"],
+  filters: {
+    captilizeFirstLetter: val => {
+      if (val == "" || !val) return "";
+      let str = val[0].toUpperCase() + val.substring(1);
+      return str;
+    }
+  },
   methods: {
-    // fetchData() {
-    //   let apikey = "26cc3b2be92d47d2a974591e7a973790";
-    //   console.log("apikey", apikey);
-    //   let country = "us";
-    //   let category = "business";
-    //   let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&country=${country}&apiKey=${apikey}`;
-    //   fetch(url)
-    //     .then(data => {
-    //       console.log(data, "fetch res");
-    //       return data.json();
-    //     })
-    //     .then(dat => {
-    //       console.log(dat, "dat");
-    //       this.articles = dat.articles;
-    //     });
-    // }
+    handleUpdateMediumCard(ev) {
+      let query = ev.target.value.toLowerCase();
+      EventBus.$emit("updateMediumCards", query);
+    }
   },
-  mounted() {
-    // this.fetchData();
-  }
+  mounted() {}
 };
 </script>
 
 <style scoped>
-section#bottom {
+section#medium {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   background-color: black;
@@ -59,6 +76,21 @@ section article {
   background-repeat: no-repeat;
   min-height: 13rem;
   display: inline-block;
+  transition: 0.3s ease-in-out;
+}
+@media only screen and (min-width: 750px) {
+  article:hover:nth-child(3n + 1) {
+    transform-origin: top left;
+    transform: scale(2.1);
+  }
+  article:hover:nth-child(3n + 2) {
+    transform-origin: top center;
+    transform: scale(2.1);
+  }
+  article:hover:nth-child(3n + 3) {
+    transform-origin: top right;
+    transform: scale(2.1);
+  }
 }
 .section-title {
   margin-left: 2rem;
@@ -71,5 +103,44 @@ section article {
   padding: 1rem;
   font-size: 1.36rem;
   line-height: 1.74rem;
+}
+.section-controls {
+  display: flex;
+}
+.section-controls h4 {
+  display: inline-block;
+  width: 55%;
+  margin: 1rem 2.5%;
+}
+.section-controls select {
+  display: inline-block;
+  width: 35%;
+  margin: 1rem 2.5%;
+}
+@media only screen and (min-width: 500px) and (max-width: 750px) {
+  section#medium {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: black;
+  }
+  article:hover:nth-child(2n + 1) {
+    transform-origin: top left;
+    transform: scale(2.1);
+  }
+  article:hover:nth-child(2n + 2) {
+    transform-origin: top right;
+    transform: scale(2.1);
+  }
+}
+@media only screen and (max-width: 500px) {
+  section#medium {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: black;
+  }
+  article:hover {
+    transform-origin: top center;
+    transform: scale(1);
+  }
 }
 </style>

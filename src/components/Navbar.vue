@@ -11,7 +11,9 @@
         <ul class="right hide-on-med-and-down">
           <li v-for="(cat,index) in categories" :key="index">
             <button
-              @click="changeLargeCards(categoryApiQuery[index])"
+              class="grey darken-1"
+              :class="{active : activetab === categoryApiQuery[index]}"
+              @click="changeLargeCards(index)"
             >{{cat | captilizeFirstLetter}}</button>
           </li>
         </ul>
@@ -38,9 +40,11 @@ export default {
   name: "Navbar",
   data() {
     return {
+      activetab: "headlines",
       slate: false,
       cartItems: [],
       categories: [
+        "headlines",
         "technology",
         "sport",
         "entertainment",
@@ -50,7 +54,8 @@ export default {
         "gaming"
       ],
       categoryApiQuery: [
-        "tecnology",
+        "headlines",
+        "technology",
         "sport",
         "entertainment",
         "music",
@@ -81,8 +86,12 @@ export default {
     $route: ""
   },
   methods: {
-    changeLargeCards(query) {
+    changeLargeCards(index) {
+      console.log(index, "I");
+      let query = this.categoryApiQuery[index];
+      console.log(query, "Q");
       console.log("emit update large card", query);
+      this.activetab = this.categories[index];
       EventBus.$emit("updateLargeCards", query);
     }
     // fetchData() {
@@ -107,7 +116,7 @@ export default {
   <style scoped>
 .nav-wrapper {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto 2rem;
 }
 .brand-logo {
   width: 15rem;
@@ -115,7 +124,16 @@ export default {
 }
 .hide-on-med-and-down {
   display: inline-flex;
-  justify-content: space-evenly;
+  justify-content: center;
+}
+.hide-on-med-and-down li button {
+  height: 65px;
+}
+.hide-on-med-and-down li button.active {
+  background-color: #524f4f !important;
+  color: white;
+  outline: 1px solid red;
+  outline-offset: -4px;
 }
 #querySearch {
   width: 90vw;

@@ -2,8 +2,8 @@
   <section>
     <main>
       <LargeCards :articles="largeArticles"/>
-      <MediumCards :articles="mediumArticles"/>
-      <SmallCards :articles="smallArticles"/>
+      <MediumCards :articles="mediumArticles" :title="mediumTitle"/>
+      <SmallCards :articles="smallArticles" :title="smallTitle"/>
     </main>
 
     <div class="fixed-action-btn">
@@ -33,6 +33,9 @@ export default {
       largeArticles: [],
       mediumArticles: [],
       smallArticles: [],
+      largeTitle: null,
+      mediumTitle: null,
+      smallTitle: null,
       countries: {
         USA: "us",
         UK: "gb",
@@ -53,15 +56,15 @@ export default {
   },
   mounted() {
     EventBus.$on("updateLargeCards", value => {
-      console.log("update large cards ON Home ev");
       this.updateLargeCards(value);
     });
     EventBus.$on("updateMediumCards", value => {
-      this.deleteItem(value);
+      console.log("update med cards ON Home ev");
       this.updateMediumCards(value);
     });
     EventBus.$on("updateSmallCards", value => {
-      this.alterQty(value);
+      console.log("update SM cards ON Home ev");
+      this.updateSmallCards(value);
     });
     this.initLargeCards();
     this.initMediumCards();
@@ -75,19 +78,36 @@ export default {
         const country = "us";
       }
       let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
-      this.fetchHeadlines(query, url, country);
+      this.fetchHeadlines(url);
     },
-    updateMediumCards(query, country) {
-      let dest = this.mediumArticles;
+    updateMediumCards(query) {
+      console.log("update-med");
+      let dest = "medium";
+      this.mediumTitle = query;
+      let country = "us";
+      let apikey = "26cc3b2be92d47d2a974591e7a973790";
+      let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
+      this.fetchCategory(query, url, country, dest);
+    },
+    updateSmallCards(query) {
+      console.log("update-sml");
+      let dest = "small";
+      this.smallTitle = query;
+      let country = "us";
       let apikey = "26cc3b2be92d47d2a974591e7a973790";
       let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
       this.fetchCategory(query, url, country, dest);
     },
     initLargeCards() {
-      this.fetchHeadlines();
+      let url =
+        "https://newsapi.org/v2/top-headlines?" +
+        "country=us&" +
+        "apiKey=26cc3b2be92d47d2a974591e7a973790";
+      this.fetchHeadlines(url);
     },
     initMediumCards() {
       let query = "business";
+      this.mediumTitle = "business";
       let country = "us";
       let apikey = "26cc3b2be92d47d2a974591e7a973790";
       let dest = "medium";
@@ -96,25 +116,19 @@ export default {
     },
     initSmallCards() {
       let query = "technology";
+      this.smallTitle = "technology";
       let country = "us";
       let apikey = "26cc3b2be92d47d2a974591e7a973790";
       let dest = "small";
       let url = `https://newsapi.org/v2/top-headlines?country=us&category=${query}&country=${country}&apiKey=${apikey}`;
       this.fetchCategory(query, url, country, dest);
     },
-    fetchHeadlines(category, url, country) {
-      let apikey = "26cc3b2be92d47d2a974591e7a973790";
-      var url =
-        "https://newsapi.org/v2/top-headlines?" +
-        "country=us&" +
-        "apiKey=26cc3b2be92d47d2a974591e7a973790";
+    fetchHeadlines(url) {
       fetch(url)
         .then(data => {
-          console.log(data, "fetch  headline res");
           return data.json();
         })
         .then(dat => {
-          console.log(dat, "dat");
           this.largeArticles = dat.articles;
         });
     },
@@ -133,7 +147,6 @@ export default {
 
       fetch(url)
         .then(data => {
-          console.log(data, "fetch cat res");
           return data.json();
         })
         .then(dat => {
